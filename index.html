@@ -2,6 +2,40 @@
 <html lang="en" class="scroll-smooth">
   <head>
     <meta charset="UTF-8" />
+    <script>
+      /* Fix environment where window.fetch has only a getter */
+      (function() {
+        try {
+          var originalFetch = typeof window !== 'undefined' ? window.fetch : undefined;
+          var fetchHolder = originalFetch;
+          var patchTarget = function(target) {
+            if (!target) return;
+            try {
+              var desc = Object.getOwnPropertyDescriptor(target, 'fetch');
+              if (!desc || !desc.set) {
+                Object.defineProperty(target, 'fetch', {
+                  get: function() {
+                    return fetchHolder;
+                  },
+                  set: function(val) {
+                    fetchHolder = val;
+                  },
+                  configurable: true,
+                  enumerable: true
+                });
+              }
+            } catch (e) {}
+          };
+          patchTarget(window);
+          if (typeof Window !== 'undefined' && Window.prototype) {
+            patchTarget(Window.prototype);
+          }
+          if (typeof globalThis !== 'undefined' && globalThis !== window) {
+            patchTarget(globalThis);
+          }
+        } catch (_) {}
+      })();
+    </script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>DaVinci Grill | The Art of the Flame – Hyderabad</title>
     <meta name="description" content="DaVinci Grill – The Art of the Flame. An elevated dining experience featuring flame-crafted steaks, artisanal grills, Italian specialties, and handcrafted beverages in Hyderabad, Sindh." />

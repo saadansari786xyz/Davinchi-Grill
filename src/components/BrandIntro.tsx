@@ -1,13 +1,22 @@
-import React from 'react';
-import { Flame, Compass, ArrowRight, ShieldCheck } from 'lucide-react';
-import { APP_IMAGES } from '../data/images';
-import { RESTAURANT_DATA } from '../data/restaurantData';
+import React, { useState } from 'react';
+import { ArrowRight } from 'lucide-react';
+
+const CULINARY_IMAGE_URL = 'https://i.ibb.co/4ndDjFcX/ppppppppp.jpg';
+const BACKUP_CULINARY_PATH = '/ppppppppp.jpg';
 
 interface BrandIntroProps {
   onDiscoverStory: () => void;
 }
 
 export const BrandIntro: React.FC<BrandIntroProps> = ({ onDiscoverStory }) => {
+  const [imageSrc, setImageSrc] = useState(CULINARY_IMAGE_URL);
+
+  const handleImageError = () => {
+    if (imageSrc !== BACKUP_CULINARY_PATH) {
+      setImageSrc(BACKUP_CULINARY_PATH);
+    }
+  };
+
   return (
     <section
       id="brand-intro"
@@ -17,41 +26,24 @@ export const BrandIntro: React.FC<BrandIntroProps> = ({ onDiscoverStory }) => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
           
-          {/* Left Column: Editorial Imagery with Layered Composition */}
-          <div className="lg:col-span-6 relative order-2 lg:order-1">
-            <div className="relative mx-auto max-w-md lg:max-w-none">
-              {/* Primary Ambience Image */}
-              <div className="relative rounded-sm overflow-hidden border border-[#2a2924] shadow-2xl aspect-[4/3] group">
+          {/* Left Column: Official Culinary Philosophy Imagery */}
+          <div className="lg:col-span-6 relative order-2 lg:order-1 flex items-center justify-center">
+            <div className="relative w-full max-w-lg mx-auto">
+              <div className="relative rounded-sm overflow-hidden border border-[#2a2924] bg-[#121210] shadow-2xl aspect-square flex items-center justify-center">
                 <img
-                  src={APP_IMAGES.diningAmbience}
-                  alt="DaVinci Grill Warm Ambience and Dining Room"
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                  src={imageSrc}
+                  alt="DaVinci Grill - Where Fire Becomes Flavor"
+                  className="w-full h-full aspect-square object-contain"
+                  onError={handleImageError}
+                  loading="eager"
+                  decoding="async"
+                  referrerPolicy="no-referrer"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0c0c0b]/80 via-transparent to-transparent" />
-                <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between text-xs text-ivory/80 font-sans">
-                  <span>Intimate Dining Room</span>
-                  <span className="text-champagne">Latifabad Unit 3</span>
-                </div>
               </div>
 
-              {/* Offset Accent Card */}
-              <div className="absolute -bottom-8 -right-4 sm:-right-8 bg-[#181815] border border-champagne/40 p-5 rounded-sm shadow-2xl max-w-[240px] hidden sm:block">
-                <div className="flex items-center gap-3 mb-2">
-                  <div className="w-8 h-8 rounded-full bg-[#0c0c0b] border border-champagne/50 flex items-center justify-center">
-                    <Flame className="w-4 h-4 text-champagne" />
-                  </div>
-                  <div>
-                    <p className="font-display text-xs tracking-wider text-ivory uppercase">Char-Grilled</p>
-                    <p className="text-[10px] text-ivory-muted">To Exact Doneness</p>
-                  </div>
-                </div>
-                <p className="font-serif italic text-xs text-champagne-light">
-                  "Every plate is shaped by bold flavors and the art of flame."
-                </p>
-              </div>
-
-              {/* Decorative Subtle Corner Border */}
-              <div className="absolute -top-3 -left-3 w-16 h-16 border-t border-l border-champagne/40 pointer-events-none" />
+              {/* Decorative Subtle Corner Accents */}
+              <div className="absolute -top-3 -left-3 w-12 h-12 border-t border-l border-champagne/40 pointer-events-none" />
+              <div className="absolute -bottom-3 -right-3 w-12 h-12 border-b border-r border-champagne/40 pointer-events-none" />
             </div>
           </div>
 

@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Calendar, Menu as MenuIcon, X } from 'lucide-react';
 
+const OFFICIAL_LOGO_URL = 'https://i.ibb.co/VWJX9rvd/cliefnt.jpg';
+const BACKUP_LOGO_PATH = '/davinci-logo.jpg';
+
 interface NavbarProps {
   onOpenReservation: () => void;
   onNavigateToMenu: () => void;
@@ -9,6 +12,13 @@ interface NavbarProps {
 export const Navbar: React.FC<NavbarProps> = ({ onOpenReservation, onNavigateToMenu }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [logoSrc, setLogoSrc] = useState(OFFICIAL_LOGO_URL);
+
+  const handleLogoError = () => {
+    if (logoSrc !== BACKUP_LOGO_PATH) {
+      setLogoSrc(BACKUP_LOGO_PATH);
+    }
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -60,11 +70,15 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenReservation, onNavigateToM
             className="flex items-center gap-3 group focus:outline-none focus-visible:ring-2 focus-visible:ring-champagne"
             aria-label="DaVinci Grill Homepage"
           >
-            <div className="w-10 h-10 rounded-full border border-champagne/40 flex items-center justify-center p-1 bg-[#121210] group-hover:border-champagne transition-colors shrink-0">
+            <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-sm border border-champagne/40 overflow-hidden flex items-center justify-center bg-[#121210] group-hover:border-champagne transition-colors shrink-0">
               <img
-                src="/logo.svg"
+                src={logoSrc}
                 alt="DaVinci Grill"
-                className="w-full h-full object-contain filter invert brightness-125"
+                className="w-full h-full aspect-square object-contain"
+                onError={handleLogoError}
+                loading="eager"
+                decoding="async"
+                referrerPolicy="no-referrer"
               />
             </div>
             <div className="flex flex-col">
@@ -144,11 +158,17 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenReservation, onNavigateToM
           <div>
             <div className="flex items-center justify-between pb-6 border-b border-[#2a2924]">
               <div className="flex items-center gap-3">
-                <img
-                  src="/logo.svg"
-                  alt="DaVinci Grill"
-                  className="w-10 h-10 object-contain filter invert brightness-125"
-                />
+                <div className="w-10 h-10 rounded-sm border border-champagne/40 overflow-hidden flex items-center justify-center bg-[#121210] shrink-0">
+                  <img
+                    src={logoSrc}
+                    alt="DaVinci Grill"
+                    className="w-full h-full aspect-square object-contain"
+                    onError={handleLogoError}
+                    loading="eager"
+                    decoding="async"
+                    referrerPolicy="no-referrer"
+                  />
+                </div>
                 <div className="flex flex-col">
                   <span className="font-display text-base font-semibold tracking-[0.2em] text-ivory">
                     DAVINCI GRILL
